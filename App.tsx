@@ -1,55 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import AddTask from './components/AddTask';
 import TaskList from './components/TaskList';
-import { Task } from './types/task';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-const STORAGE_KEY = 'TASKS_STORAGE_KEY';
+import { useTodos } from './hooks/useTodos';
 
 export default function App() {
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const { state, addTask, toggleTask, deleteTask } = useTodos();
 
-  useEffect(() => {
-    (async () => {
-      const storedTasks = await AsyncStorage.getItem(STORAGE_KEY);
-      if (storedTasks) {
-        setTasks(JSON.parse(storedTasks));
-      }
-    })();
-  }, []);
-
-  useEffect(() => {
-    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
-  }, [tasks]);
-
-  const addTask = (name: string) => {
-    const newTask: Task = {
-      id: Date.now().toString(),
-      name,
-      done: false,
-    };
-    setTasks([...tasks, newTask]);
-  }
-  const toggleTask = (id: string) => {
-    setTasks(tasks.map(task => 
-      task.id === id ? { ...task, done: !task.done } : task
-    ));
-  }
-
-  const deleteTask = (id: string) => {
-    setTasks(tasks.filter(task => task.id !== id));
-  }
-  
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Todo List</Text>
       <AddTask onAddTask={addTask} />
-      <TaskList tasks={tasks} onToggleTask={toggleTask} onDeleteTask={deleteTask} />
+      <TaskList
+        tasks={state.tasks}
+        onToggleTask={toggleTask}
+        onDeleteTask={deleteTask}
+      />
       <StatusBar style="auto" />
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({

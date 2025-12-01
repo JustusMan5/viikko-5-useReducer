@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "viikko-4-todo",
-    "slug": "viikko-4-todo",
+    "name": "viikko-5-useReducer",
+    "slug": "viikko-5-useReducer",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

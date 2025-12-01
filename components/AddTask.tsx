@@ -18,11 +18,11 @@ export default function AddTask({ onAddTask }: AddTaskProps) {
         <View style={styles.container}>
             <TextInput
                 style={styles.input}
-                placeholder="Enter task"
+                placeholder="Add a new task"
                 value={taskName}
                 onChangeText={setTaskName}
             />
-            <Button title="Save" onPress={handleAddTask} />
+            <Button title="Add" onPress={handleAddTask} />
         </View>
     );
 }
